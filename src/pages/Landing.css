@@ -1,0 +1,245 @@
+.land-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- HERO SECTION ---- */
+.land__hero {
+  position: relative;
+  padding: 140px 0 80px;
+  text-align: center;
+  z-index: 1;
+}
+
+.land__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, rgba(22, 86, 43, 0.15), transparent 70%);
+}
+.land__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: float 10s infinite ease-in-out alternate;
+}
+.land__orb--1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--green-400), transparent);
+  top: -200px; left: -200px;
+  animation: liquid-1 20s infinite alternate;
+}
+.land__orb--2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--gold-400), transparent);
+  bottom: -150px; right: -150px;
+  animation: liquid-2 25s infinite alternate;
+}
+
+@keyframes liquid-1 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(100px, 50px) scale(1.2) rotate(90deg); }
+  100% { transform: translate(-50px, 100px) scale(0.9) rotate(180deg); }
+}
+@keyframes liquid-2 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(-100px, -50px) scale(1.1) rotate(-90deg); }
+  100% { transform: translate(50px, -100px) scale(1.3) rotate(-180deg); }
+}
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 30px) scale(1.1); }
+}
+
+.land__hero-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+  animation: slideUp 0.8s var(--ease-bounce) forwards;
+}
+
+.land__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(11, 42, 22, 0.6);
+  border: 1px solid rgba(41, 162, 80, 0.3);
+  color: var(--green-200);
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.land__badge-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  padding: 2px;
+}
+
+.land__title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.land__title--gold {
+  background: linear-gradient(
+    135deg, 
+    var(--gold-200) 0%, 
+    var(--gold-400) 25%, 
+    #fff 50%, 
+    var(--gold-400) 75%, 
+    var(--gold-200) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  animation: title-shimmer 4s linear infinite;
+}
+
+@keyframes title-shimmer {
+  to { background-position: 200% center; }
+}
+
+.land__subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  color: var(--text2);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.land__actions {
+  display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; justify-content: center;
+}
+
+/* ---- FEATURES SECTION ---- */
+.land__features {
+  padding: 80px 0;
+  position: relative;
+  z-index: 1;
+}
+.land__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.land__feature-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: linear-gradient(180deg, rgba(16, 59, 30, 0.4) 0%, rgba(6, 27, 14, 0.6) 100%);
+}
+.land__feature-icon {
+  font-size: 2.5rem;
+  background: rgba(41, 162, 80, 0.15);
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 20px;
+  border: 1px solid rgba(41, 162, 80, 0.3);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
+}
+.land__feature-title { font-size: 1.3rem; }
+.land__feature-desc { color: var(--text2); font-size: 0.95rem; line-height: 1.6; }
+
+/* ---- HOW IT WORKS ---- */
+.land__steps {
+  padding: 60px 0;
+  position: relative;
+  z-index: 1;
+}
+.land__step-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(16, 59, 30, 0.4) 0%, rgba(6, 27, 14, 0.6) 100%);
+}
+.land__step-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 6rem;
+  font-weight: 900;
+  color: rgba(41, 162, 80, 0.1);
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  line-height: 1;
+}
+
+/* ---- CTA ---- */
+.land__cta {
+  padding: 60px 0 100px;
+  text-align: center;
+}
+.land__cta-card {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, rgba(41, 162, 80, 0.15), rgba(232, 160, 32, 0.05));
+  border: 1px solid rgba(41, 162, 80, 0.3);
+  border-radius: 32px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+.land__cta-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.land__cta-desc {
+  color: var(--text2);
+  margin-bottom: 32px;
+  max-width: 500px;
+  margin-inline: auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* ---- FOOTER ---- */
+.land__footer {
+  text-align: center;
+  padding: 60px 20px;
+  border-top: 1px solid rgba(41, 162, 80, 0.15);
+  background: rgba(2, 12, 5, 0.5);
+  backdrop-filter: var(--glass-blur);
+}
+.land__footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.land__footer-logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  padding: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.land__footer-text { color: var(--text3); font-size: 0.9rem; }
+
+@media (max-width: 640px) {
+  .land__hero { padding: 100px 0 60px; }
+  .land__actions { flex-direction: column; width: 100%; max-width: 320px; }
+  .land__feature-card, .land__step-card { padding: 24px; }
+  .land__cta-card { padding: 40px 20px; border-radius: 24px; }
+  .land__cta-title { font-size: 1.8rem; }
+}

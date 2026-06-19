@@ -1,0 +1,15 @@
+.od-page { padding-top: 8px; }
+.od-nav { padding: 12px 0; }
+.od-header { padding: 20px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px; }
+.od-header__top { display: flex; justify-content: space-between; align-items: flex-start; }
+.od-header__label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.od-header__name { font-size: 1.15rem; font-weight: 700; font-family: 'Outfit', sans-serif; }
+.od-header__desc { font-size: 0.9rem; color: var(--text-dim); line-height: 1.5; }
+.od-header__meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
+.od-payment { }
+.od-payment--paid { color: var(--green-200); }
+
+.od-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.od-rating { padding: 20px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.od-rating__title { font-weight: 700; margin-bottom: 8px; }
+.od-rated { text-align: center; padding: 14px; color: var(--star-gold); font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; }

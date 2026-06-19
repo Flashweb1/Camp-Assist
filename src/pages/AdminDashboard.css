@@ -1,0 +1,13 @@
+.ad-page { padding-top: 20px; }
+.ad-title { color: var(--gold-300); }
+.ad-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+.ad-stat { padding: 20px; text-align: center; }
+.ad-stat__value { font-size: 2.5rem; font-weight: 800; }
+.ad-stat__label { font-size: 0.8rem; color: var(--text2); text-transform: uppercase; }
+.ad-stat__value--green { color: var(--green-200); }
+.ad-feed-heading { margin-bottom: 16px; }
+.ad-feed { display: flex; flex-direction: column; gap: 12px; }
+.ad-feed__row { padding: 16px; display: flex; justify-content: space-between; }
+.ad-feed__corps { font-weight: 600; }
+.ad-feed__arrow { color: var(--text3); }
+.ad-feed__desc { font-size: 0.85rem; color: var(--text2); }

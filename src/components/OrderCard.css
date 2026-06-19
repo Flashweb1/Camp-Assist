@@ -1,0 +1,17 @@
+.oc {
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.oc:hover { transform: translateX(3px); }
+.oc__head { display: flex; align-items: flex-start; gap: 12px; }
+.oc__icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+.oc__info { flex: 1; min-width: 0; }
+.oc__who { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2px; }
+.oc__who strong { color: var(--text-dim); }
+.oc__desc { font-size: 0.9rem; font-weight: 500; line-height: 1.4; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.oc__time { font-size: 0.74rem; color: var(--text-muted); }
+.oc__footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(42,138,80,0.1); }
+.oc__loc { font-size: 0.78rem; color: var(--text-dim); }
+.oc__cta { font-size: 0.8rem; font-weight: 600; color: var(--green-400); }

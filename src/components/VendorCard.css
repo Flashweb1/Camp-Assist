@@ -1,0 +1,53 @@
+.vc {
+  padding: 18px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.22s ease;
+}
+
+.vc:hover { transform: translateY(-2px); }
+
+.vc__top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.vc__avatar {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  border: 2px solid;
+  background: rgba(42,138,80,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem; font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.vc__info { flex: 1; min-width: 0; }
+.vc__name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+.vc__loc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+
+.vc-stars { display: flex; align-items: center; gap: 2px; font-size: 0.85rem; color: var(--star-gold); }
+.vc-stars__num { font-size: 0.75rem; color: var(--text-dim); margin-left: 4px; font-weight: 500; }
+
+.vc__cat {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  flex-shrink: 0;
+}
+.vc__cat-icon { font-size: 1.4rem; }
+.vc__cat-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.vc__desc {
+  font-size: 0.84rem; color: var(--text-dim); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.vc__footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(42,138,80,0.12);
+}

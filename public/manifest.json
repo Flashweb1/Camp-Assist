@@ -1,0 +1,15 @@
+{
+  "short_name": "CampAssist",
+  "name": "CampAssist NYSC Marketplace",
+  "icons": [
+    {
+      "src": "/nysc-logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0A1F12",
+  "background_color": "#0A1F12"
+}

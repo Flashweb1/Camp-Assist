@@ -1,0 +1,24 @@
+.po-page { padding-top: 8px; }
+.po-nav { padding: 12px 0; }
+.po-vendor {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px; margin-bottom: 24px;
+}
+.po-vendor__avatar {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(42,138,80,0.15); border: 1.5px solid rgba(42,138,80,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+.po-vendor__name { font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+.po-vendor__loc { font-size: 0.8rem; color: var(--text-muted); }
+
+.po-note {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px; background: rgba(232,160,32,0.07);
+  border-color: rgba(232,160,32,0.2);
+}
+.po-note__icon { font-size: 1.4rem; flex-shrink: 0; }
+.po-note__text { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+.po-note__text strong { color: var(--gold-300); }
