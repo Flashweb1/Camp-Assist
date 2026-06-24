@@ -3,13 +3,13 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBqng9qekmId5gg4m5HL_s-3t8QzRCVISY",
-  authDomain: "camp-assist-d1d29.firebaseapp.com",
-  projectId: "camp-assist-d1d29",
-  storageBucket: "camp-assist-d1d29.firebasestorage.app",
-  messagingSenderId: "1044071370182",
-  appId: "1:1044071370182:web:f675002d38eecbf31d36c7",
-  measurementId: "G-JZ84ZJ2FMG"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Guard against Vite HMR re-initializing the app
