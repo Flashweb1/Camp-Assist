@@ -76,6 +76,7 @@ export function AuthProvider({ children }) {
     const unsub = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
+        setLoading(true);
         try {
           await loadProfile(user.uid);
         } catch (err) {
