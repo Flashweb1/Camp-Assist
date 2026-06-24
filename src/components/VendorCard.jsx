@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './VendorCard.css';
 
 const CATEGORY_META = {
@@ -21,11 +22,12 @@ function Stars({ rating }) {
 
 export default function VendorCard({ vendor }) {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const meta = CATEGORY_META[vendor.category] || CATEGORY_META.items;
   const initials = (vendor.businessName || vendor.name || '?').substring(0, 2).toUpperCase();
 
   return (
-    <div className="vc card" onClick={() => navigate(`/vendor/${vendor.uid}`)}>
+    <div className="vc card" onClick={() => navigate(`/vendors/${vendor.uid}`)}>
       <div className="vc__top">
         <div className="vc__avatar" style={{ borderColor: meta.color }}>
           {initials}
@@ -45,8 +47,8 @@ export default function VendorCard({ vendor }) {
         <span className={`badge ${vendor.isAvailable ? 'badge--green' : 'badge--red'}`}>
           {vendor.isAvailable ? '● Open' : '● Closed'}
         </span>
-        <button className="btn btn--primary btn--sm" onClick={(e) => { e.stopPropagation(); navigate(`/vendor/${vendor.uid}`); }}>
-          View &amp; Order →
+        <button className="btn btn--primary btn--sm" onClick={(e) => { e.stopPropagation(); currentUser ? navigate(`/order/new/${vendor.uid}`) : navigate(`/login?redirect=/order/new/${vendor.uid}`); }}>
+          Place Order →
         </button>
       </div>
     </div>

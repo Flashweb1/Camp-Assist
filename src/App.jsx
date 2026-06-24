@@ -18,9 +18,16 @@ import VendorDashboard from './pages/VendorDashboard';
 import VendorOrders from './pages/VendorOrders';
 import VendorProfileEdit from './pages/VendorProfileEdit';
 import AdminDashboard from './pages/AdminDashboard';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import Community from './pages/Community';
+import CommunityPost from './pages/CommunityPost';
+import CommunityDetail from './pages/CommunityDetail';
 
 // Components
 import Navbar from './components/Navbar';
+import PublicNavbar from './components/PublicNavbar';
+import AIAssist from './components/AIAssist';
 
 // ProtectedRoute — must be inside AuthProvider tree
 function ProtectedRoute({ children, allowedRole }) {
@@ -43,15 +50,21 @@ function AppRoutes() {
   return (
     <>
       <Routes>
-        {/* Public */}
-        <Route path="/" element={!currentUser ? <Landing /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/home'} replace />} />
-        <Route path="/login" element={!currentUser ? <Login /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/home'} replace />} />
-        <Route path="/signup/corps" element={!currentUser ? <SignupCorps /> : <Navigate to="/home" replace />} />
+        {/* Public — no auth needed */}
+        <Route path="/" element={!currentUser ? <Landing /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/vendors'} replace />} />
+        <Route path="/login" element={!currentUser ? <Login /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/vendors'} replace />} />
+        <Route path="/signup/corps" element={!currentUser ? <SignupCorps /> : <Navigate to="/vendors" replace />} />
         <Route path="/signup/vendor" element={!currentUser ? <SignupVendor /> : <Navigate to="/vendor/dashboard" replace />} />
+        <Route path="/vendors" element={<Home />} />
+        <Route path="/vendors/:id" element={<VendorProfile />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/community/new" element={<CommunityPost />} />
+        <Route path="/community/:postId" element={<CommunityDetail />} />
 
-        {/* Corps Member */}
-        <Route path="/home" element={<ProtectedRoute allowedRole="corps_member"><Home /></ProtectedRoute>} />
-        <Route path="/vendor/:id" element={<ProtectedRoute allowedRole="corps_member"><VendorProfile /></ProtectedRoute>} />
+        {/* Corps Member (logged-in) */}
+        <Route path="/home" element={<Navigate to="/vendors" replace />} />
         <Route path="/order/new/:vendorId" element={<ProtectedRoute allowedRole="corps_member"><PlaceOrder /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute allowedRole="corps_member"><MyOrders /></ProtectedRoute>} />
         <Route path="/order/:orderId" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
@@ -68,7 +81,8 @@ function AppRoutes() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {currentUser && <Navbar />}
+      {!currentUser ? <PublicNavbar /> : <Navbar />}
+      <AIAssist />
     </>
   );
 }

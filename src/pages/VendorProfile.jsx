@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import { useAuth } from '../context/AuthContext';
 import './VendorProfile.css';
 
 const CAT_ICONS = { food: '🍛', laundry: '🧺', errands: '🛍️', items: '🛒' };
@@ -22,6 +23,7 @@ function Stars({ rating, totalRatings }) {
 export default function VendorProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [vendor, setVendor] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -40,7 +42,7 @@ export default function VendorProfile() {
       <div className="empty-state">
         <div className="empty-state__icon">❌</div>
         <div className="empty-state__title">Vendor not found</div>
-        <button className="btn btn--outline" style={{marginTop:16}} onClick={() => navigate('/home')}>← Back</button>
+        <button className="btn btn--outline" style={{marginTop:16}} onClick={() => navigate('/vendors')}>← Back</button>
       </div>
     </div>
   );
@@ -49,7 +51,7 @@ export default function VendorProfile() {
     <div className="page vp-page">
       {/* Back */}
       <div className="container vp-nav">
-        <button className="btn btn--ghost" onClick={() => navigate('/home')}>← Back</button>
+        <button className="btn btn--ghost" onClick={() => navigate('/vendors')}>← Back</button>
       </div>
 
       <div className="container">
@@ -96,7 +98,7 @@ export default function VendorProfile() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <button
                 className="btn btn--gold btn--full btn--lg"
-                onClick={() => navigate(`/order/new/${vendor.uid}`)}
+                onClick={() => currentUser ? navigate(`/order/new/${vendor.uid}`) : navigate(`/login?redirect=/order/new/${vendor.uid}`)}
               >
                 Place an Order →
               </button>

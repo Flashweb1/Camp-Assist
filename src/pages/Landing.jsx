@@ -44,6 +44,9 @@ export default function Landing() {
             <button className="btn btn--gold btn--lg" onClick={() => navigate('/signup/corps')}>
               I'm a Corps Member →
             </button>
+            <button className="btn btn--outline btn--lg" onClick={() => navigate('/vendors')}>
+              Browse Vendors →
+            </button>
             <button className="btn btn--outline btn--lg" onClick={() => navigate('/signup/vendor')}>
               I'm a Vendor / Seller
             </button>

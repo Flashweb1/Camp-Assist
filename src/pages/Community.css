@@ -1,0 +1,35 @@
+.cm-page { padding-top: 20px; padding-bottom: 80px; }
+
+.cm-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cm-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Post Form */
+.cm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.cm-form__text {
+  font-family: inherit;
+  resize: vertical;
+}
+
+.cm-form__tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}

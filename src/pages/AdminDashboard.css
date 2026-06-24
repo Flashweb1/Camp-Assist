@@ -11,3 +11,67 @@
 .ad-feed__corps { font-weight: 600; }
 .ad-feed__arrow { color: var(--text3); }
 .ad-feed__desc { font-size: 0.85rem; color: var(--text2); }
+
+/* ---- Blog Admin ---- */
+.ad-posts__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ad-post-form {
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ad-post-form__content {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.ad-posts__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ad-post-row {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ad-post-row__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ad-post-row__title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ad-post-row__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: var(--text3);
+}
+
+.ad-post-row__actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}

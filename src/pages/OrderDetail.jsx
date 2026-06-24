@@ -5,6 +5,7 @@ import { db } from '../firebase/config';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import ChatBox from '../components/ChatBox';
+import DeliveryMap from '../components/DeliveryMap';
 import './OrderDetail.css';
 
 const STATUS_FLOW = {
@@ -197,6 +198,11 @@ export default function OrderDetail() {
         )}
         {rated && (
           <div className="od-rated">⭐ Thanks for your rating!</div>
+        )}
+
+        {/* Live Location — when order is active */}
+        {(order.status === 'accepted' || order.status === 'in_progress') && (
+          <DeliveryMap orderId={orderId} />
         )}
 
         {/* Chat */}

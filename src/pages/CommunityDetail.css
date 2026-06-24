@@ -1,0 +1,130 @@
+.cmd-page { padding-top: 20px; padding-bottom: 80px; }
+
+.cmd-post {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.cmd-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cmd-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.cmd-author {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.cmd-date {
+  font-size: 0.8rem;
+  color: var(--text3);
+}
+
+.cmd-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.cmd-img-wrap {
+  width: 100%;
+  max-height: 400px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.cmd-img { width: 100%; height: 100%; object-fit: cover; }
+
+.cmd-actions { margin-top: 8px; }
+
+.cmd-like {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  transition: all 0.2s;
+  color: var(--text2);
+}
+
+.cmd-like:hover { background: rgba(255, 0, 0, 0.05); }
+.cmd-like--on { color: #EF4444; }
+
+/* Comments */
+.cmd-comments { margin-top: 8px; }
+
+.cmd-comments__title {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.cmd-comment-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.cmd-comment-form .form-input { flex: 1; }
+
+.cmd-login-prompt {
+  color: var(--green-300);
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.cmd-no-comments {
+  color: var(--text3);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.cmd-comment {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cmd-comment__avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(41, 162, 80, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.cmd-comment__body { flex: 1; min-width: 0; }
+
+.cmd-comment__author {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.cmd-comment__text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+}

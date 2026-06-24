@@ -3,7 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const CORPS_LINKS = [
-  { to: '/home', icon: '🏪', label: 'Discover' },
+  { to: '/community', icon: '💬', label: 'Feed' },
+  { to: '/vendors', icon: '🏪', label: 'Discover' },
   { to: '/orders', icon: '📦', label: 'Orders' },
   { to: '/profile', icon: '👤', label: 'Profile' },
 ];
@@ -38,7 +39,6 @@ export default function Navbar() {
             key={to}
             to={to}
             className={({ isActive }) => `navbar__item ${isActive ? 'navbar__item--active' : ''}`}
-            aria-current={({ isActive }) => isActive ? 'page' : undefined}
           >
             <span className="navbar__icon">{icon}</span>
             <span className="navbar__label">{label}</span>

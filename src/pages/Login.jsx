@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import nyscLogo from '/nysc-logo.png';
 import './Auth.css';
@@ -7,6 +7,8 @@ import './Auth.css';
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = new URLSearchParams(location.search).get('redirect');
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,7 +20,8 @@ export default function Login() {
     setError(''); setLoading(true);
     try {
       await login(form.email, form.password);
-      // AuthContext will redirect based on role
+      if (redirectTo) navigate(redirectTo);
+      // otherwise App.jsx will redirect based on role
     } catch (err) {
       setError(err?.code === 'auth/invalid-credential' ? 'Invalid email or password.' : err?.message || 'Login failed. Please try again.');
     } finally {
