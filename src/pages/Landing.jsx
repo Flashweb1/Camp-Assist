@@ -7,6 +7,8 @@ const FEATURES = [
   { icon: '🧺', title: 'Laundry', desc: 'Pickup & drop-off — clean clothes while you focus on drills' },
   { icon: '🛍️', title: 'Errands', desc: 'Need something done? Get a runner on it fast' },
   { icon: '🛒', title: 'Items & Supplies', desc: 'Toiletries, stationery, and more within camp' },
+  { icon: '💬', title: 'Community Feed', desc: 'Connect with fellow corps members, share tips, and stay in the loop' },
+  { icon: '🤖', title: 'AI Assistant', desc: 'Get instant answers about vendors, orders, and camp life — 24/7' },
 ];
 
 const HOW = [
@@ -38,7 +40,7 @@ export default function Landing() {
           </h1>
           <p className="land__subtitle slide-up" style={{ animationDelay: '0.1s' }}>
             CampAssist links NYSC corps members with vendors inside camp —
-            food, laundry, errands and more. No stress. Pay on delivery.
+            food, laundry, errands, community, and AI-powered help. No stress. Pay on delivery.
           </p>
           <div className="land__actions slide-up" style={{ animationDelay: '0.2s' }}>
             <button className="btn btn--gold btn--lg" onClick={() => navigate('/signup/corps')}>
