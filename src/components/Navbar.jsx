@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
@@ -15,10 +14,16 @@ const VENDOR_LINKS = [
   { to: '/vendor/profile/edit', icon: '⚙️', label: 'Profile' },
 ];
 
+const ADMIN_LINKS = [
+  { to: '/admin', icon: '👑', label: 'Admin' },
+  { to: '/orders', icon: '📦', label: 'Orders' },
+  { to: '/profile', icon: '👤', label: 'Profile' },
+];
+
 export default function Navbar() {
   const { role, logout } = useAuth();
   const navigate = useNavigate();
-  const links = role === 'vendor' ? VENDOR_LINKS : CORPS_LINKS;
+  const links = role === 'admin' ? ADMIN_LINKS : role === 'vendor' ? VENDOR_LINKS : CORPS_LINKS;
 
   const handleLogout = async () => {
     await logout();
@@ -33,6 +38,7 @@ export default function Navbar() {
             key={to}
             to={to}
             className={({ isActive }) => `navbar__item ${isActive ? 'navbar__item--active' : ''}`}
+            aria-current={({ isActive }) => isActive ? 'page' : undefined}
           >
             <span className="navbar__icon">{icon}</span>
             <span className="navbar__label">{label}</span>

@@ -30,6 +30,8 @@ export default function Home() {
         }
         const snap = await getDocs(q);
         setVendors(snap.docs.map(d => ({ id: d.id, uid: d.id, ...d.data() })));
+      } catch {
+        setVendors([]);
       } finally {
         setLoading(false);
       }

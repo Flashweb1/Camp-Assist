@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -29,7 +28,7 @@ function ProtectedRoute({ children, allowedRole }) {
   if (loading) return <div className="loading-screen"><div className="spinner" /></div>;
   if (!currentUser) return <Navigate to="/login" replace />;
   if (allowedRole && role !== allowedRole) {
-    if (!role) return <Navigate to="/login" replace />;
+    if (!role) return children;
     if (role === 'vendor') return <Navigate to="/vendor/dashboard" replace />;
     if (role === 'admin') return <Navigate to="/admin" replace />;
     return <Navigate to="/home" replace />;
@@ -45,8 +44,8 @@ function AppRoutes() {
     <>
       <Routes>
         {/* Public */}
-        <Route path="/" element={!currentUser ? <Landing /> : <Navigate to={role === 'vendor' ? '/vendor/dashboard' : '/home'} replace />} />
-        <Route path="/login" element={!currentUser || !role ? <Login /> : <Navigate to={role === 'vendor' ? '/vendor/dashboard' : '/home'} replace />} />
+        <Route path="/" element={!currentUser ? <Landing /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/home'} replace />} />
+        <Route path="/login" element={!currentUser ? <Login /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/home'} replace />} />
         <Route path="/signup/corps" element={!currentUser ? <SignupCorps /> : <Navigate to="/home" replace />} />
         <Route path="/signup/vendor" element={!currentUser ? <SignupVendor /> : <Navigate to="/vendor/dashboard" replace />} />
 

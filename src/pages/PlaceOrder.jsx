@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
@@ -23,11 +23,13 @@ export default function PlaceOrder() {
       setFetching(false);
     }
     load();
-    // Pre-fill delivery location from profile
+  }, [vendorId]);
+
+  useEffect(() => {
     if (userProfile?.hostelBlock) {
       setForm(f => ({ ...f, deliveryLocation: userProfile.hostelBlock }));
     }
-  }, [vendorId, userProfile]);
+  }, [userProfile]);
 
   const handle = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }));
 

@@ -15,11 +15,6 @@ export default function AdminDashboard() {
   const isAdmin = role === 'admin';
 
   useEffect(() => {
-    if (!isAdmin) {
-      navigate('/home');
-      return;
-    }
-
     async function loadStats() {
       try {
         const vendorSnap = await getDocs(collection(db, 'vendors'));
@@ -45,9 +40,15 @@ export default function AdminDashboard() {
       }
     }
 
+    if (!isAdmin) {
+      navigate('/home');
+      return;
+    }
+
     loadStats();
   }, [isAdmin, navigate]);
 
+  if (!isAdmin) return null;
   if (loading) return <div className="loading-screen"><div className="spinner" /></div>;
 
   return (

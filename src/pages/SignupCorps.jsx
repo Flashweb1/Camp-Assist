@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import nyscLogo from '/nysc-logo.png';
@@ -27,7 +27,7 @@ export default function SignupCorps() {
       await registerCorpsMember(email, password, profile);
       navigate('/home');
     } catch (err) {
-      setError(err.code === 'auth/email-already-in-use' ? 'Email already registered.' : err.message);
+      setError(err?.code === 'auth/email-already-in-use' ? 'Email already registered.' : err?.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }

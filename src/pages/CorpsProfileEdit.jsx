@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 
 const PLATOONS = Array.from({ length: 10 }, (_, i) => `Platoon ${i + 1}`);
 
 export default function CorpsProfileEdit() {
   const { currentUser, userProfile, loadProfile } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     phone: userProfile?.phone || '',
@@ -27,6 +29,8 @@ export default function CorpsProfileEdit() {
       await loadProfile(currentUser.uid);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
+    } catch {
+      addToast('Failed to update profile', 'error');
     } finally {
       setSaving(false);
     }

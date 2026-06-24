@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   collection, addDoc, onSnapshot,
   orderBy, query, serverTimestamp
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import './ChatBox.css';
 
 export default function ChatBox({ orderId, otherPartyName }) {
   const { currentUser, userProfile } = useAuth();
+  const { addToast } = useToast();
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
@@ -41,6 +43,8 @@ export default function ChatBox({ orderId, otherPartyName }) {
         timestamp: serverTimestamp(),
       });
       setText('');
+    } catch {
+      addToast('Failed to send message', 'error');
     } finally {
       setSending(false);
     }
