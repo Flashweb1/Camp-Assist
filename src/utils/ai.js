@@ -1,5 +1,5 @@
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_KEY;
-const MODEL = 'google/gemini-2.0-flash-exp:free';
+const MODEL = 'google/gemma-4-31b-it:free';
 
 export async function askAI(prompt, context = '') {
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
