@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import nyscLogo from '/nysc-logo.png';
 import './Auth.css';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, resetPassword } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const redirectTo = new URLSearchParams(location.search).get('redirect');
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   const handle = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }));
 
@@ -21,11 +24,26 @@ export default function Login() {
     try {
       await login(form.email, form.password);
       if (redirectTo) navigate(redirectTo);
-      // otherwise App.jsx will redirect based on role
     } catch (err) {
       setError(err?.code === 'auth/invalid-credential' ? 'Invalid email or password.' : err?.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (!form.email.trim()) {
+      setError('Enter your email address first.');
+      return;
+    }
+    setResetting(true);
+    try {
+      await resetPassword(form.email);
+      addToast('Password reset email sent. Check your inbox.', 'success');
+    } catch (err) {
+      setError(err?.message || 'Failed to send reset email.');
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -54,6 +72,13 @@ export default function Login() {
               <label className="form-label">Password</label>
               <input name="password" type="password" className="form-input" placeholder="••••••••"
                 value={form.password} onChange={handle} required />
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 4 }}>
+                <button type="button" className="btn btn--ghost btn--sm"
+                  onClick={handleReset} disabled={resetting}
+                  style={{ fontSize: '0.8rem', padding: '4px 8px' }}>
+                  {resetting ? 'Sending...' : 'Forgot password?'}
+                </button>
+              </div>
             </div>
             <button type="submit" className="btn btn--primary btn--full" disabled={loading}>
               {loading ? 'Logging in...' : 'Log In →'}

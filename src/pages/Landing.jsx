@@ -9,6 +9,7 @@ const FEATURES = [
   { icon: '🛒', title: 'Items & Supplies', desc: 'Toiletries, stationery, and more within camp' },
   { icon: '💬', title: 'Community Feed', desc: 'Connect with fellow corps members, share tips, and stay in the loop' },
   { icon: '🤖', title: 'AI Assistant', desc: 'Get instant answers about vendors, orders, and camp life — 24/7' },
+  { icon: '📍', title: 'Live Location', desc: 'Track your vendor in real-time as they head to your delivery spot' },
 ];
 
 const HOW = [

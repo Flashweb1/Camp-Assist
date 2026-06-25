@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
@@ -50,6 +51,10 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
+  }
+
+  async function resetPassword(email) {
+    return sendPasswordResetEmail(auth, email);
   }
 
   async function logout() {
@@ -98,6 +103,7 @@ export function AuthProvider({ children }) {
     loading,
     login,
     logout,
+    resetPassword,
     registerCorpsMember,
     registerVendor,
     loadProfile,

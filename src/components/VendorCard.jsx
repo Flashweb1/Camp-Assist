@@ -66,7 +66,7 @@ export default function VendorCard({ vendor }) {
           <div className="vc__loc" aria-label={`Location: ${vendor.location}`}>
             📍 {vendor.location}
           </div>
-          <Stars rating={vendor.rating || 0} totalRatings={vendor.totalRatings || 0} />
+          <Stars rating={vendor.rating || 0} />
         </div>
         <div 
           className="vc__cat" 

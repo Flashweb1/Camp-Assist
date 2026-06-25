@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, onSnapshot, updateDoc, serverTimestamp, addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, serverTimestamp, addDoc, collection, query, where, getDocs, runTransaction } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -100,13 +100,15 @@ export default function OrderDetail() {
         comment,
         createdAt: serverTimestamp(),
       });
-      const q = query(collection(db, 'ratings'), where('vendorId', '==', order.vendorId));
-      const snap = await getDocs(q);
-      const stars = snap.docs.map(d => d.data().stars).filter(s => typeof s === 'number');
-      const avg = stars.length > 0 ? stars.reduce((a, b) => a + b, 0) / stars.length : rating;
-      await updateDoc(doc(db, 'vendors', order.vendorId), {
-        rating: Math.round(avg * 10) / 10,
-        totalRatings: stars.length,
+      await runTransaction(db, async (transaction) => {
+        const q = query(collection(db, 'ratings'), where('vendorId', '==', order.vendorId));
+        const snap = await getDocs(q);
+        const stars = snap.docs.map(d => d.data().stars).filter(s => typeof s === 'number');
+        const avg = stars.length > 0 ? stars.reduce((a, b) => a + b, 0) / stars.length : rating;
+        transaction.update(doc(db, 'vendors', order.vendorId), {
+          rating: Math.round(avg * 10) / 10,
+          totalRatings: stars.length,
+        });
       });
       setRated(true);
       addToast('Thank you for rating!', 'success');
