@@ -8,12 +8,19 @@ import './AdminDashboard.css';
 
 const TABS = [
   { key: 'stats', label: 'Stats' },
+  { key: 'support', label: 'Support' },
+  { key: 'vendors', label: 'Vendors' },
+  { key: 'orders', label: 'Orders' },
+  { key: 'users', label: 'Users' },
   { key: 'posts', label: 'Posts' },
 ];
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
+
+const ORDER_STATUSES = ['pending', 'accepted', 'in_progress', 'delivered', 'cancelled'];
+const TICKET_STATUSES = ['open', 'in_progress', 'resolved', 'closed'];
 
 export default function AdminDashboard() {
   const { role } = useAuth();
@@ -24,11 +31,31 @@ export default function AdminDashboard() {
   const [recentOrders, setRecentOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Posts
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ title: '', slug: '', excerpt: '', content: '', imageUrl: '', tags: '', published: false });
   const [saving, setSaving] = useState(false);
+
+  // Support tickets
+  const [tickets, setTickets] = useState([]);
+  const [ticketsLoading, setTicketsLoading] = useState(false);
+  const [ticketFilter, setTicketFilter] = useState('all');
+  const [replyText, setReplyText] = useState({});
+
+  // Vendors
+  const [vendors, setVendors] = useState([]);
+  const [vendorsLoading, setVendorsLoading] = useState(false);
+
+  // All orders
+  const [allOrders, setAllOrders] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [orderFilter, setOrderFilter] = useState('all');
+
+  // Users
+  const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
 
   const isAdmin = role === 'admin';
 
@@ -49,6 +76,7 @@ export default function AdminDashboard() {
     loadStats();
   }, [isAdmin, navigate]);
 
+  // Posts
   const loadPosts = useCallback(async () => {
     setPostsLoading(true);
     try {
@@ -62,6 +90,61 @@ export default function AdminDashboard() {
     if (tab === 'posts') loadPosts();
   }, [tab, loadPosts]);
 
+  // Support
+  const loadTickets = useCallback(async () => {
+    setTicketsLoading(true);
+    try {
+      const q = query(collection(db, 'support_tickets'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      setTickets(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch { setTickets([]); } finally { setTicketsLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    if (tab === 'support') loadTickets();
+  }, [tab, loadTickets]);
+
+  // Vendors
+  const loadVendors = useCallback(async () => {
+    setVendorsLoading(true);
+    try {
+      const snap = await getDocs(collection(db, 'vendors'));
+      setVendors(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch { setVendors([]); } finally { setVendorsLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    if (tab === 'vendors') loadVendors();
+  }, [tab, loadVendors]);
+
+  // Orders
+  const loadOrders = useCallback(async () => {
+    setOrdersLoading(true);
+    try {
+      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      setAllOrders(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch { setAllOrders([]); } finally { setOrdersLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    if (tab === 'orders') loadOrders();
+  }, [tab, loadOrders]);
+
+  // Users
+  const loadUsers = useCallback(async () => {
+    setUsersLoading(true);
+    try {
+      const snap = await getDocs(collection(db, 'corps_members'));
+      setUsers(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch { setUsers([]); } finally { setUsersLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    if (tab === 'users') loadUsers();
+  }, [tab, loadUsers]);
+
+  // Post handlers
   const resetForm = () => {
     setEditing(null);
     setForm({ title: '', slug: '', excerpt: '', content: '', imageUrl: '', tags: '', published: false });
@@ -117,8 +200,62 @@ export default function AdminDashboard() {
     } catch { addToast('Failed to delete post', 'error'); }
   };
 
+  // Ticket handlers
+  const updateTicketStatus = async (id, status) => {
+    try {
+      await updateDoc(doc(db, 'support_tickets', id), { status, updatedAt: serverTimestamp() });
+      addToast('Ticket updated', 'success');
+      loadTickets();
+    } catch { addToast('Failed to update ticket', 'error'); }
+  };
+
+  const submitReply = async (ticketId) => {
+    const reply = replyText[ticketId]?.trim();
+    if (!reply) return;
+    try {
+      await updateDoc(doc(db, 'support_tickets', ticketId), {
+        adminReply: reply,
+        status: 'resolved',
+        updatedAt: serverTimestamp(),
+      });
+      setReplyText(p => ({ ...p, [ticketId]: '' }));
+      addToast('Reply sent', 'success');
+      loadTickets();
+    } catch { addToast('Failed to send reply', 'error'); }
+  };
+
+  // Vendor handlers
+  const toggleVendor = async (id, current) => {
+    try {
+      await updateDoc(doc(db, 'vendors', id), { isAvailable: !current });
+      addToast(`Vendor ${current ? 'disabled' : 'enabled'}`, 'success');
+      loadVendors();
+    } catch { addToast('Failed to update vendor', 'error'); }
+  };
+
+  const deleteVendor = async (id) => {
+    if (!confirm('Delete this vendor permanently?')) return;
+    try {
+      await deleteDoc(doc(db, 'vendors', id));
+      addToast('Vendor deleted', 'success');
+      loadVendors();
+    } catch { addToast('Failed to delete vendor', 'error'); }
+  };
+
+  // Order handlers
+  const updateOrderStatus = async (id, status) => {
+    try {
+      await updateDoc(doc(db, 'orders', id), { status, updatedAt: serverTimestamp() });
+      addToast('Order updated', 'success');
+      loadOrders();
+    } catch { addToast('Failed to update order', 'error'); }
+  };
+
   if (!isAdmin) return null;
   if (loading && tab === 'stats') return <div className="loading-screen"><div className="spinner" /></div>;
+
+  const filteredTickets = ticketFilter === 'all' ? tickets : tickets.filter(t => t.status === ticketFilter);
+  const filteredOrders = orderFilter === 'all' ? allOrders : allOrders.filter(o => o.status === orderFilter);
 
   return (
     <div className="page ad-page">
@@ -127,7 +264,7 @@ export default function AdminDashboard() {
           <div className="page-hd__title ad-title">👑 Admin Portal</div>
         </div>
 
-        <div className="tabs" style={{ marginBottom: 24 }}>
+        <div className="tabs ad-tabs" style={{ marginBottom: 24 }}>
           {TABS.map(t => (
             <button key={t.key}
               className={`tab-btn ${tab === t.key ? 'active' : ''}`}
@@ -174,6 +311,170 @@ export default function AdminDashboard() {
           </>
         )}
 
+        {tab === 'support' && (
+          <div className="ad-section">
+            <div className="ad-section__hd">
+              <h3>Support Tickets</h3>
+              <div className="ad-filters">
+                {['all', ...TICKET_STATUSES].map(s => (
+                  <button key={s}
+                    className={`btn btn--sm ${ticketFilter === s ? 'btn--primary' : 'btn--ghost'}`}
+                    onClick={() => setTicketFilter(s)}>
+                    {s.charAt(0).toUpperCase() + s.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {ticketsLoading ? (
+              <div className="loading-screen" style={{ minHeight: 200 }}><div className="spinner" /></div>
+            ) : filteredTickets.length === 0 ? (
+              <div className="empty-state"><div className="empty-state__title">No tickets</div></div>
+            ) : (
+              <div className="ad-ticket-list">
+                {filteredTickets.map(t => (
+                  <div key={t.id} className="card ad-ticket">
+                    <div className="ad-ticket__hd">
+                      <div>
+                        <strong>{t.subject}</strong>
+                        <div className="ad-ticket__meta">{t.name} &lt;{t.email}&gt; — {t.createdAt?.toDate().toLocaleDateString()}</div>
+                      </div>
+                      <div className="ad-ticket__status-wrap">
+                        <select className="form-input" style={{ width: 'auto', padding: '6px 12px' }}
+                          value={t.status} onChange={e => updateTicketStatus(t.id, e.target.value)}>
+                          {TICKET_STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <p className="ad-ticket__msg">{t.message}</p>
+                    {t.adminReply && (
+                      <div className="ad-ticket__reply">
+                        <strong>Admin reply:</strong> {t.adminReply}
+                      </div>
+                    )}
+                    <div className="ad-ticket__reply-input">
+                      <input className="form-input" placeholder="Write a reply..."
+                        value={replyText[t.id] || ''}
+                        onChange={e => setReplyText(p => ({ ...p, [t.id]: e.target.value }))} />
+                      <button className="btn btn--primary btn--sm" onClick={() => submitReply(t.id)}
+                        disabled={!replyText[t.id]?.trim()}>Send Reply</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === 'vendors' && (
+          <div className="ad-section">
+            <div className="ad-section__hd"><h3>All Vendors ({vendors.length})</h3></div>
+            {vendorsLoading ? (
+              <div className="loading-screen" style={{ minHeight: 200 }}><div className="spinner" /></div>
+            ) : vendors.length === 0 ? (
+              <div className="empty-state"><div className="empty-state__title">No vendors</div></div>
+            ) : (
+              <div className="ad-table-wrap">
+                <table className="ad-table">
+                  <thead><tr><th>Business</th><th>Owner</th><th>Category</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+                  <tbody>
+                    {vendors.map(v => (
+                      <tr key={v.id}>
+                        <td>{v.businessName || v.name}</td>
+                        <td>{v.name}</td>
+                        <td><span className="badge badge--green">{v.category}</span></td>
+                        <td>{v.phone}</td>
+                        <td>{v.isAvailable ? <span className="badge badge--green">Active</span> : <span className="badge badge--gray">Inactive</span>}</td>
+                        <td>
+                          <button className={`btn btn--sm ${v.isAvailable ? 'btn--danger' : 'btn--primary'}`}
+                            onClick={() => toggleVendor(v.id, v.isAvailable)}>
+                            {v.isAvailable ? 'Disable' : 'Enable'}
+                          </button>
+                          <button className="btn btn--ghost btn--sm" style={{ color: 'var(--danger)' }}
+                            onClick={() => deleteVendor(v.id)}>Delete</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === 'orders' && (
+          <div className="ad-section">
+            <div className="ad-section__hd">
+              <h3>All Orders ({allOrders.length})</h3>
+              <div className="ad-filters">
+                {['all', ...ORDER_STATUSES].map(s => (
+                  <button key={s}
+                    className={`btn btn--sm ${orderFilter === s ? 'btn--primary' : 'btn--ghost'}`}
+                    onClick={() => setOrderFilter(s)}>
+                    {s.charAt(0).toUpperCase() + s.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {ordersLoading ? (
+              <div className="loading-screen" style={{ minHeight: 200 }}><div className="spinner" /></div>
+            ) : filteredOrders.length === 0 ? (
+              <div className="empty-state"><div className="empty-state__title">No orders</div></div>
+            ) : (
+              <div className="ad-table-wrap">
+                <table className="ad-table">
+                  <thead><tr><th>Corps</th><th>Vendor</th><th>Description</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+                  <tbody>
+                    {filteredOrders.map(o => (
+                      <tr key={o.id}>
+                        <td>{o.corpsName}</td>
+                        <td>{o.vendorName}</td>
+                        <td className="ad-table__desc">{o.description}</td>
+                        <td><span className={`badge badge--${o.status === 'delivered' ? 'green' : o.status === 'pending' ? 'gold' : o.status === 'cancelled' ? 'red' : 'blue'}`}>{o.status}</span></td>
+                        <td style={{ fontSize: '0.85rem', color: 'var(--text3)' }}>{o.createdAt?.toDate().toLocaleDateString()}</td>
+                        <td>
+                          <select className="form-input" style={{ width: 'auto', padding: '6px 12px' }}
+                            value={o.status} onChange={e => updateOrderStatus(o.id, e.target.value)}>
+                            {ORDER_STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === 'users' && (
+          <div className="ad-section">
+            <div className="ad-section__hd"><h3>Corps Members ({users.length})</h3></div>
+            {usersLoading ? (
+              <div className="loading-screen" style={{ minHeight: 200 }}><div className="spinner" /></div>
+            ) : users.length === 0 ? (
+              <div className="empty-state"><div className="empty-state__title">No corps members</div></div>
+            ) : (
+              <div className="ad-table-wrap">
+                <table className="ad-table">
+                  <thead><tr><th>Name</th><th>Email</th><th>State Code</th><th>Phone</th><th>Platoon</th><th>Hostel</th></tr></thead>
+                  <tbody>
+                    {users.map(u => (
+                      <tr key={u.id}>
+                        <td>{u.name || u.fullName || '—'}</td>
+                        <td>{u.email || '—'}</td>
+                        <td>{u.stateCode || u.state_code || '—'}</td>
+                        <td>{u.phone || '—'}</td>
+                        <td>{u.platoon || '—'}</td>
+                        <td>{u.hostelBlock || u.hostel || '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
         {tab === 'posts' && (
           <div className="ad-posts">
             <div className="ad-posts__toolbar">
@@ -183,7 +484,6 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {/* Editor */}
             {(editing || (!editing && form.title) || (!editing && !posts.length)) && (
               <form className="card ad-post-form" onSubmit={savePost}>
                 <div className="form-group">
@@ -232,7 +532,6 @@ export default function AdminDashboard() {
               </form>
             )}
 
-            {/* Post list */}
             {postsLoading ? (
               <div className="loading-screen" style={{ minHeight: 200 }}><div className="spinner" /></div>
             ) : posts.length === 0 ? (

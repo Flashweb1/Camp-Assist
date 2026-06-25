@@ -124,6 +124,7 @@ export default function FAQ() {
 
         <div className="faq-cta">
           <p>Still have questions? <span className="faq-cta__link" onClick={() => navigate('/community')}>Ask the community →</span></p>
+          <p style={{ marginTop: 12 }}>Need direct help? <span className="faq-cta__link" onClick={() => navigate('/contact')}>Contact camp admin →</span></p>
         </div>
       </div>
     </div>

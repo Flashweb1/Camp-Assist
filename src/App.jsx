@@ -24,6 +24,7 @@ import Community from './pages/Community';
 import CommunityPost from './pages/CommunityPost';
 import CommunityDetail from './pages/CommunityDetail';
 import FAQ from './pages/FAQ';
+import Contact from './pages/Contact';
 
 // Components
 import TopNavbar from './components/TopNavbar';
@@ -66,6 +67,7 @@ function AppRoutes() {
         <Route path="/community/new" element={<CommunityPost />} />
         <Route path="/community/:postId" element={<CommunityDetail />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/contact" element={<Contact />} />
 
         {/* Corps Member (logged-in) */}
         <Route path="/home" element={<Navigate to="/vendors" replace />} />

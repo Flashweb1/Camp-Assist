@@ -29,6 +29,7 @@ export default function Footer() {
           <div className="ft__col">
             <h4 className="ft__col-title">Support</h4>
             <Link to="/faq" className="ft__link">Help & FAQ</Link>
+            <Link to="/contact" className="ft__link">Contact Us</Link>
             {currentUser ? (
               <>
                 <Link to="/orders" className="ft__link">My Orders</Link>
