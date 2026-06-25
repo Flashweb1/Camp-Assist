@@ -51,6 +51,7 @@ function AppRoutes() {
 
   return (
     <>
+      {!currentUser ? <PublicNavbar /> : <TopNavbar />}
       <Routes>
         {/* Public — no auth needed */}
         <Route path="/" element={!currentUser ? <Landing /> : <Navigate to={role === 'admin' ? '/admin' : role === 'vendor' ? '/vendor/dashboard' : '/vendors'} replace />} />
@@ -84,7 +85,6 @@ function AppRoutes() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!currentUser ? <PublicNavbar /> : <TopNavbar />}
       <Footer />
       <AIAssist />
     </>
