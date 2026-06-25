@@ -25,6 +25,7 @@ import CommunityPost from './pages/CommunityPost';
 import CommunityDetail from './pages/CommunityDetail';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import AdminAuth from './pages/AdminAuth';
 
 // Components
 import TopNavbar from './components/TopNavbar';
@@ -84,6 +85,8 @@ function AppRoutes() {
 
         {/* Admin */}
         <Route path="/admin" element={<ProtectedRoute allowedRole="admin"><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/signup" element={!currentUser ? <AdminAuth /> : <Navigate to="/admin" replace />} />
+        <Route path="/admin/login" element={!currentUser ? <AdminAuth /> : <Navigate to="/admin" replace />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
