@@ -19,6 +19,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState('all');
   const [search, setSearch] = useState('');
+  const [priceRange, setPriceRange] = useState('any');
 
   useEffect(() => {
     async function load() {
@@ -45,6 +46,9 @@ export default function Home() {
     return (v.businessName || v.name || '').toLowerCase().includes(s) ||
       (v.description || '').toLowerCase().includes(s) ||
       (v.location || '').toLowerCase().includes(s);
+  }).filter(v => {
+    if (priceRange === 'any') return true;
+    return v.priceRange === priceRange;
   });
 
   const available = filtered.filter(v => v.isAvailable);
@@ -75,18 +79,32 @@ export default function Home() {
               <button className="home__search-clear" onClick={() => setSearch('')}>✕</button>
             )}
           </div>
-          {/* Categories */}
-          <div className="home__cats">
-            {CATEGORIES.map(c => (
-              <button
-                key={c.value}
-                className={`chip ${category === c.value ? 'active' : ''}`}
-                onClick={() => setCategory(c.value)}
-              >
-                {c.icon} {c.label}
-              </button>
-            ))}
-          </div>
+  {/* Categories */}
+  <div className="home__cats">
+    {CATEGORIES.map(c => (
+      <button
+        key={c.value}
+        className={`chip ${category === c.value ? 'active' : ''}`}
+        onClick={() => setCategory(c.value)}
+      >
+        {c.icon} {c.label}
+      </button>
+    ))}
+  </div>
+  {/* Price Range Filter */}
+  <div className="home__price-range">
+    <label htmlFor="price-range">Price Range:</label>
+    <select
+      id="price-range"
+      value={priceRange}
+      onChange={e => setPriceRange(e.target.value)}
+    >
+      <option value="any">All Prices</option>
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select>
+  </div>
         </div>
       </div>
 

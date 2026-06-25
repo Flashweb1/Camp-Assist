@@ -27,6 +27,7 @@ export default function PublicNavbar() {
           <NavLink to="/vendors" className={({ isActive }) => `pub-nav__link ${isActive ? 'pub-nav__link--active' : ''}`} onClick={close}>Discover Vendors</NavLink>
           <NavLink to="/blog" className={({ isActive }) => `pub-nav__link ${isActive ? 'pub-nav__link--active' : ''}`} onClick={close}>Blog</NavLink>
           <NavLink to="/community" className={({ isActive }) => `pub-nav__link ${isActive ? 'pub-nav__link--active' : ''}`} onClick={close}>Community</NavLink>
+          <NavLink to="/faq" className={({ isActive }) => `pub-nav__link ${isActive ? 'pub-nav__link--active' : ''}`} onClick={close}>FAQ</NavLink>
 
           <div className="pub-nav__signup-wrap"
             onMouseEnter={() => setDropOpen(true)}

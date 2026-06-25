@@ -23,10 +23,12 @@ import BlogPost from './pages/BlogPost';
 import Community from './pages/Community';
 import CommunityPost from './pages/CommunityPost';
 import CommunityDetail from './pages/CommunityDetail';
+import FAQ from './pages/FAQ';
 
 // Components
-import Navbar from './components/Navbar';
+import TopNavbar from './components/TopNavbar';
 import PublicNavbar from './components/PublicNavbar';
+import Footer from './components/Footer';
 import AIAssist from './components/AIAssist';
 
 // ProtectedRoute — must be inside AuthProvider tree
@@ -38,7 +40,7 @@ function ProtectedRoute({ children, allowedRole }) {
     if (!role) return children;
     if (role === 'vendor') return <Navigate to="/vendor/dashboard" replace />;
     if (role === 'admin') return <Navigate to="/admin" replace />;
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/vendors" replace />;
   }
   return children;
 }
@@ -62,6 +64,7 @@ function AppRoutes() {
         <Route path="/community" element={<Community />} />
         <Route path="/community/new" element={<CommunityPost />} />
         <Route path="/community/:postId" element={<CommunityDetail />} />
+        <Route path="/faq" element={<FAQ />} />
 
         {/* Corps Member (logged-in) */}
         <Route path="/home" element={<Navigate to="/vendors" replace />} />
@@ -81,7 +84,8 @@ function AppRoutes() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {!currentUser ? <PublicNavbar /> : <Navbar />}
+      {!currentUser ? <PublicNavbar /> : <TopNavbar />}
+      <Footer />
       <AIAssist />
     </>
   );

@@ -1,0 +1,127 @@
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(2, 12, 5, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(41, 162, 80, 0.15);
+  padding: 0 16px;
+}
+
+.top-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.top-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.top-nav__logo-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 2px;
+  object-fit: contain;
+}
+
+.top-nav__logo-text {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.top-nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.top-nav__toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s var(--ease-bounce);
+}
+
+.top-nav__toggle--open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.top-nav__toggle--open span:nth-child(2) { opacity: 0; }
+.top-nav__toggle--open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+.top-nav__menu {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.top-nav__link {
+  color: var(--text3);
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: var(--r-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.25s var(--ease);
+  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.top-nav__link:hover {
+  color: #fff;
+  background: rgba(41, 162, 80, 0.15);
+}
+
+.top-nav__link--active {
+  color: var(--gold-400);
+  background: rgba(232, 160, 32, 0.1);
+}
+
+.top-nav__link--logout {
+  color: var(--text3);
+}
+
+.top-nav__link--logout:hover {
+  color: #F87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+@media (max-width: 768px) {
+  .top-nav__toggle { display: flex; }
+
+  .top-nav__menu {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(6, 27, 14, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    gap: 4px;
+  }
+
+  .top-nav__menu--open { display: flex; }
+
+  .top-nav__link { width: 100%; text-align: center; padding: 12px; }
+}
